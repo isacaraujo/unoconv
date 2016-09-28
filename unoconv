@@ -222,6 +222,8 @@ def office_environ(office):
     ### UNO environment
     if os.name in ( 'nt', 'os2' ):
         os.environ['URE_BOOTSTRAP'] = 'vnd.sun.star.pathname:' + realpath(office.basepath, 'program', 'fundamental.ini')
+    elif os.name in ( 'mac', ) or sys.platform in ( 'darwin', ):
+        os.environ['URE_BOOTSTRAP'] = 'vnd.sun.star.pathname:' + realpath(office.basepath, 'Resources', 'fundamentalrc')
     else:
         os.environ['URE_BOOTSTRAP'] = 'vnd.sun.star.pathname:' + realpath(office.basepath, 'program', 'fundamentalrc')
 
@@ -1307,18 +1309,18 @@ if __name__ == '__main__':
         if of.python != sys.executable and not sys.executable.startswith(of.basepath):
             python_switch(of)
         office_environ(of)
-#        debug_office()
+        # debug_office()
         try:
             import uno, unohelper
             office = of
             break
         except:
-#            debug_office()
+            # debug_office()
             print("unoconv: Cannot find a suitable pyuno library and python binary combination in %s" % of, file=sys.stderr)
             print("ERROR:", sys.exc_info()[1], file=sys.stderr)
             print(file=sys.stderr)
     else:
-#        debug_office()
+        # debug_office()
         print("unoconv: Cannot find a suitable office installation on your system.", file=sys.stderr)
         print("ERROR: Please locate your office installation and send your feedback to:", file=sys.stderr)
         print("       http://github.com/dagwieers/unoconv/issues", file=sys.stderr)
